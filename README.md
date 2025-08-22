@@ -4,15 +4,15 @@ TestKodik - это телеграм-бот для генерации штрих�
 Проект упакован в **Docker** и готов к использованию без лишних настроек.
 
 <p align="center">
-  <img src="docs/banner.png" alt="TestKodik Bot" width="250" style="border-radius:25px;"/>
+  <img src="images/banner.png" alt="TestKodik Bot" width="250" style="border-radius:25px;"/>
 </p>
 
 <p align="center">
-  <img src="docs/python.png" alt="Python" width="50"/>
+  <img src="images/python.png" alt="Python" width="50"/>
 
-  <img src="docs/docker.png" alt="Docker" width="50"/>
+  <img src="images/docker.png" alt="Docker" width="50"/>
 
-  <img src="docs/telegram.png" alt="Telegram" width="50"/>
+  <img src="images/telegram.png" alt="Telegram" width="50"/>
 </p>
 
 
@@ -30,9 +30,9 @@ TestKodik - это телеграм-бот для генерации штрих�
 ## 🎬 Пример работы  
 
 <p align="center">
-    <img src="docs/demo1.jpg" alt="Пример работы бота" width="200"/>
-    <img src="docs/demo2.jpg" alt="Пример работы бота" width="200"/>
-    <img src="docs/demo3.jpg" alt="Пример работы бота" width="200"/>
+    <img src="images/demo1.jpg" alt="Пример работы бота" width="200"/>
+    <img src="images/demo2.jpg" alt="Пример работы бота" width="200"/>
+    <img src="images/demo3.jpg" alt="Пример работы бота" width="200"/>
 </p>
  
 
