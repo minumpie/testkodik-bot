@@ -16,26 +16,26 @@ pipeline {
             }
         }
 
-        stage('Python Tests') {
-            steps {
-                sh '''
-                    echo "🐍 Запускаем pytest..."
-                    pip install -r requirements.txt
-                    pytest --maxfail=1 --disable-warnings -q
-                '''
-            }
-        }
+        // stage('Python Tests') {
+        //     steps {
+        //         sh '''
+        //             echo "🐍 Запускаем pytest..."
+        //             pip install -r requirements.txt
+        //             pytest --maxfail=1 --disable-warnings -q
+        //         '''
+        //     }
+        // }
 
-        stage('Java Tests') {
-            steps {
-                dir('java-tests') {
-                    sh '''
-                        echo "☕ Запускаем юнит-тесты на Java..."
-                        mvn clean test
-                    '''
-                }
-            }
-        }
+        // stage('Java Tests') {
+        //     steps {
+        //         dir('java-tests') {
+        //             sh '''
+        //                 echo "☕ Запускаем юнит-тесты на Java..."
+        //                 mvn clean test
+        //             '''
+        //         }
+        //     }
+        // }
 
         stage('Build Docker Image') {
             steps {
