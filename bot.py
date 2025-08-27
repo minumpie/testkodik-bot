@@ -6,6 +6,7 @@ from telegram.ext import Application, CommandHandler, MessageHandler, filters, C
 from barcode import Code128
 from barcode.writer import ImageWriter
 from config import BOT_TOKEN
+from telegram import Update, ReplyKeyboardMarkup, KeyboardButton
 
 
 # === Настройка логирования ===
@@ -47,15 +48,40 @@ def generate_barcode_png(product_code: str, scale: int = 4) -> BytesIO:
 
 # === Команды и обработчики ===
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    keyboard = [[KeyboardButton("❓ Помощь")]]
+    reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
+
     await update.message.reply_text(
-        "👋 Привет! Отправь мне номер товара (только цифры), и я сгенерирую для него штрихкод в PNG 📦"
+        "👋 Привет! Отправь мне номер товара (только цифры), и я сгенерирую для него штрихкод в PNG 📦",
+        reply_markup=reply_markup
     )
+
+
+async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    help_text = (
+        "📖 *Как пользоваться ботом:*\n\n"
+        "1️⃣ Введи номер товара (только цифры).\n"
+        "   Пример: `123456789`\n\n"
+        "2️⃣ Бот сгенерирует штрихкод Code128 в формате PNG 📦\n\n"
+        "⚠️ Правила:\n"
+        "• Номер должен состоять только из цифр (без пробелов, букв и спецсимволов).\n"
+        "• Минимум 1 цифра.\n\n"
+        "💡 Советы:\n"
+        "— Если ввёл что-то неверное, бот напомнит о формате.\n"
+        "— Используй кнопку *Помощь* для повторной подсказки.\n"
+    )
+    await update.message.reply_text(help_text, parse_mode="Markdown")
 
 
 async def handle_code(update: Update, context: ContextTypes.DEFAULT_TYPE):
     product_code = (update.message.text or "").strip()
 
     if not product_code.isdigit():
+        # Если нажата кнопка "Помощь"
+        if product_code.lower() in ["❓ помощь", "помощь", "/help"]:
+            await help_command(update, context)
+            return
+
         await update.message.reply_text("❌ Пожалуйста, введи корректный номер (только цифры).")
         return
 
@@ -73,7 +99,6 @@ async def handle_code(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def unknown_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Обработчик неизвестных команд"""
     await update.message.reply_text("❌ Такой команды не существует. Попробуй ввести номер товара 😉")
 
 
@@ -87,6 +112,7 @@ async def error_handler(update: object, context: ContextTypes.DEFAULT_TYPE) -> N
 def main():
     app = Application.builder().token(BOT_TOKEN).build()
     app.add_handler(CommandHandler("start", start))
+    app.add_handler(CommandHandler("help", help_command))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_code))
     app.add_handler(MessageHandler(filters.COMMAND, unknown_command))
     app.add_error_handler(error_handler)
