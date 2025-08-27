@@ -11,7 +11,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'develop',
+                git branch: 'main',
                     url: 'https://github.com/minumpie/testkodik-bot.git'
             }
         }
