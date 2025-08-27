@@ -26,22 +26,21 @@ logger = logging.getLogger(__name__)
 def generate_barcode_png(product_code: str, scale: int = 4) -> BytesIO:
     """
     Генерация штрихкода Code128 в PNG.
-    :param product_code: строка с номером товара
-    :param scale: множитель разрешения (по умолчанию 4 → высокая чёткость)
-    :return: BytesIO с PNG-файлом
     """
     barcode = Code128(product_code, writer=ImageWriter())
-    barcode.writer.set_options({
-        "write_text": True,     # показывать номер под штрихкодом
-        "text_distance": 5.0,   # отступ номера от кода
-        "module_width": 0.4,    # толщина линии
-        "module_height": 80,    # высота штрихов
-        "quiet_zone": 6.0,      # поля
-        "font_size": 40,        # размер цифр
-    })
 
     buffer = BytesIO()
-    barcode.write(buffer, options={"dpi": 300 * scale})
+    barcode.write(buffer, options={
+        "dpi": 300 * scale,
+        "write_text": True, # показывать номер под штрихкодом
+        "background": "#ffcd16",   # фон
+        "foreground": "#090606",   # штрихкод и текст
+        "font_size": 10,    # размер шрифта номера
+        "text_distance": 5.0,  # отступ номера от кода
+        "module_width": 0.4,  # толщина линии
+        "module_height": 20,  # высота штрихов
+        "quiet_zone": 6.0,  # поля
+    })
     buffer.seek(0)
     return buffer
 
